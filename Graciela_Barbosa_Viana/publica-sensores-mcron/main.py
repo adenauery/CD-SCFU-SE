@@ -69,12 +69,8 @@ def publica(callback_id, current_time, callback_memory):
     dict["Origem"] = "Graciela"
     print(dict)
     
-    publicacao = ujson.dumps(dict)
-    print(publicacao)
-    
-    mqttc.connect()
-    mqttc.publish(BTN_TOPIC, publicacao.encode())
-    mqttc.disconnect()
+    publicacao_temp = ujson.dumps(dict)
+    print(publicacao_temp)
 
     dict = {}                                                                                                                                                                                                   
     dict["Valor"] = Umid
@@ -83,14 +79,21 @@ def publica(callback_id, current_time, callback_memory):
     dict["Origem"] = "Graciela"
     print(dict)
     
-    publicacao = ujson.dumps(dict)
-    print(publicacao)
+    publicacao_umid = ujson.dumps(dict)
+    print(publicacao_umid)
 
-    mqttc.connect()
-    mqttc.publish(BTN_TOPIC, publicacao.encode())
+    tentativas=0
+    while(tentativas <= 10):
+      try:
+         mqttc.connect()
+         mqttc.publish(BTN_TOPIC, publicacao_temp.encode())
+         mqttc.publish(BTN_TOPIC, publicacao_umid.encode())
+      except:
+         time.sleep(5)
+         tentativas=tentativas+1
+     
     mqttc.disconnect()
 
-#sleep(120)
 mcron.init_timer()
 #mcron.insert(mcron.PERIOD_MINUTE, 5), 'minute_5s', counter)
 mcron.insert(mcron.PERIOD_HOUR, range(0, mcron.PERIOD_HOUR, mcron.PERIOD_HOUR // 6), 'day_x4', publica)
