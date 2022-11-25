@@ -21,8 +21,14 @@ def connect_scfu():
     
 connect_scfu()
 
-ntptime.host = "1.europe.pool.ntp.org"
-ntptime.settime()
+HOST = "1.europe.pool.ntp.org"
+
+def synchronize_ntp(callback_id, current_time, callback_memory):
+    ntptime.host = HOST
+    print('tempo sincronizado')
+    ntptime.settime()
+    
+synchronize_ntp()
 
 # mqtt client setup
 CLIENT_NAME = 'pi-iv-a'
@@ -97,3 +103,4 @@ def publica(callback_id, current_time, callback_memory):
 mcron.init_timer()
 #mcron.insert(mcron.PERIOD_MINUTE, 5), 'minute_5s', counter)
 mcron.insert(mcron.PERIOD_HOUR, range(0, mcron.PERIOD_HOUR, mcron.PERIOD_HOUR // 6), 'day_x4', publica)
+mcron.insert(mcron.PERIOD_DAY, range(0, mcron.PERIOD_DAY, mcron.PERIOD_DAY // 2), 'day_x2', synchronize_ntp)
