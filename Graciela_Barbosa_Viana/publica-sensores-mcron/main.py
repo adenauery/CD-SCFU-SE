@@ -1,4 +1,3 @@
-from umqtt.simple import MQTTClient
 from machine import Pin
 from time import sleep
 import ujson
@@ -8,6 +7,7 @@ import dht
 import utime
 import mcron
 import mcron.decorators
+from umqtt.simple import MQTTClient
 
 def connect_scfu():
     import network
@@ -21,14 +21,25 @@ def connect_scfu():
     
 connect_scfu()
 
-HOST = "1.europe.pool.ntp.org"
 
-def synchronize_ntp(callback_id, current_time, callback_memory):
-    ntptime.host = HOST
-    print('tempo sincronizado')
+def sincronizar_ntp (callbalck_id, current_time, callback_memory):
+    ntptime.host = "1.europe.pool.ntp.org"
     ntptime.settime()
     
-synchronize_ntp()
+ntptime.host = "1.europe.pool.ntp.org"
+        
+tentativas=0
+publicou=0
+while publicou == 0 and tentativas <= 20:
+    try:
+        ntptime.settime()
+        publicou=1
+        print("Relogio ajustado")
+    except:
+        time.sleep(5)
+        tentativas=tentativas+1
+        print("Tentativas ajuste relogio：%s" %str(tentativas))
+        publicou=0
 
 # mqtt client setup
 CLIENT_NAME = 'pi-iv-a'
@@ -89,18 +100,22 @@ def publica(callback_id, current_time, callback_memory):
     print(publicacao_umid)
 
     tentativas=0
-    while(tentativas <= 10):
-      try:
-         mqttc.connect()
-         mqttc.publish(BTN_TOPIC, publicacao_temp.encode())
-         mqttc.publish(BTN_TOPIC, publicacao_umid.encode())
-      except:
-         time.sleep(5)
-         tentativas=tentativas+1
-     
+    publicou=0
+    while publicou == 0 and tentativas <= 20:
+        try:
+          mqttc.connect()
+          publicou=1   
+        except:
+          time.sleep(5)
+          tentativas=tentativas+1
+          print("Tentativas：%s" %str(tentativas))
+          publicou=0
+    mqttc.publish(BTN_TOPIC, publicacao_temp.encode())
+    mqttc.publish(BTN_TOPIC, publicacao_umid.encode())
     mqttc.disconnect()
+
 
 mcron.init_timer()
 #mcron.insert(mcron.PERIOD_MINUTE, 5), 'minute_5s', counter)
 mcron.insert(mcron.PERIOD_HOUR, range(0, mcron.PERIOD_HOUR, mcron.PERIOD_HOUR // 6), 'day_x4', publica)
-mcron.insert(mcron.PERIOD_DAY, range(0, mcron.PERIOD_DAY, mcron.PERIOD_DAY // 2), 'day_x2', synchronize_ntp)
+mcron.insert(mcron.PERIOD_DAY, range(0, mcron.PERIOD_DAY, mcron.PERIOD_DAY // 2), 'day_x2', sincronizar_ntp)
