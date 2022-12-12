@@ -1,5 +1,7 @@
 from machine import Pin
 from time import sleep
+import ujsofrom machine import Pin
+from time import sleep
 import ujson
 import time
 import ntptime
@@ -42,7 +44,7 @@ while publicou == 0 and tentativas <= 20:
         publicou=0
 
 # mqtt client setup
-CLIENT_NAME = 'pi-iv-a'
+CLIENT_NAME = 'scfu'
 BROKER_ADDR = 'broker.hivemq.com'
 mqttc = MQTTClient(CLIENT_NAME, BROKER_ADDR, keepalive=60)
 
@@ -71,12 +73,15 @@ def publica(callback_id, current_time, callback_memory):
     mes=time.localtime()[1]
     dia=time.localtime()[2]
     hora=time.localtime()[3]
-    hfl=[21,22,23,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
-    horalocal=hfl[hora]
+    #hfl=[21,22,23,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+    #horalocal=hfl[hora]
     minuto=time.localtime()[4]
     segundo=time.localtime()[5]
-    datahora=str(ano)+"-"+str(mes)+"-"+str(dia)+" "+str(horalocal)+ ":"+str(minuto)+ ":"+str(segundo)
+    datahora=str(ano)+"-"+str(mes)+"-"+str(dia)+" "+str(hora)+ ":"+str(minuto)+ ":"+str(segundo)
     print(datahora)
+    datahorautc = time.localtime()
+    print(datahorautc)
+    
   
     
     dict = {}                                                                                                                                                                                                   
