@@ -83,7 +83,6 @@ def publica(callback_id, current_time, callback_memory):
     print(datahorautc)
     
   
-    
     dict = {}                                                                                                                                                                                                   
     dict["Valor"] = temp
     dict["DataHora"] = datahora
