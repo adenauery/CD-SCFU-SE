@@ -89,7 +89,7 @@ def le_sensores (callback_id, current_time, callback_memory):
     print(dict)
     
     indice_pub=indice_pub+1
-    print(indice_pub)
+    print("indice_pub leitura：%s" %str(indice_pub))
     
     publicacao_temp[indice_pub] = ujson.dumps(dict)
     print(publicacao_temp[indice_pub])
@@ -110,7 +110,9 @@ def publica_sensores(callback_id, current_time, callback_memory):
     global mqttc
     global CLIENT_NAME
     global BROKER_ADDR
-    global indice_pub    
+    global indice_pub
+    global publicacao_temp[]
+    global publicacao_umid[]
 
     time.sleep(5)
     tentativas_publicacao=0
@@ -123,7 +125,7 @@ def publica_sensores(callback_id, current_time, callback_memory):
             mqttc.publish(BTN_TOPIC, publicacao_umid[indice_pub].encode())
             mqttc.disconnect()
             indice_pub=indice_pub-1
-            print(indice_pub)
+            print("indice_pub publicacao：%s" %str(indice_pub))
             publicacao=1   
           except:
             time.sleep(5)
@@ -133,5 +135,5 @@ def publica_sensores(callback_id, current_time, callback_memory):
 
 mcron.init_timer()
 mcron.insert(mcron.PERIOD_HOUR, range(0, mcron.PERIOD_HOUR, mcron.PERIOD_HOUR // 60), 'day_x4', le_sensores)
-mcron.insert(mcron.PERIOD_HOUR, range(0, mcron.PERIOD_HOUR, mcron.PERIOD_HOUR // 60), 'day_x4', publica_sensores)
+mcron.insert(mcron.PERIOD_HOUR, range(0, mcron.PERIOD_HOUR, mcron.PERIOD_HOUR // 60), 'day_x5', publica_sensores)
 mcron.insert(mcron.PERIOD_DAY, range(0, mcron.PERIOD_DAY, mcron.PERIOD_DAY // 2), 'day_x2', sincronizar_ntp)
