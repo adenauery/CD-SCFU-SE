@@ -1,7 +1,5 @@
 from machine import Pin
 from time import sleep
-import ujsofrom machine import Pin
-from time import sleep
 import ujson
 import time
 import ntptime
