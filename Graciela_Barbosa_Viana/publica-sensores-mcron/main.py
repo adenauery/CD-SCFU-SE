@@ -58,6 +58,8 @@ def le_sensores (callback_id, current_time, callback_memory):
     global CLIENT_NAME
     global BROKER_ADDR
     global indice_pub
+    global publicacao_temp
+    global publicacao_umid
     
     sensor = dht.DHT22(Pin(23))
     try:
@@ -105,14 +107,14 @@ def le_sensores (callback_id, current_time, callback_memory):
     print(publicacao_umid[indice_pub])
 
     
-def publica_sensores(callback_id, current_time, callback_memory):
+def publica_sensores (callback_id, current_time, callback_memory):
     global BTN_TOPIC
     global mqttc
     global CLIENT_NAME
     global BROKER_ADDR
     global indice_pub
-    global publicacao_temp[]
-    global publicacao_umid[]
+    global publicacao_temp
+    global publicacao_umid
 
     time.sleep(5)
     tentativas_publicacao=0
@@ -121,18 +123,17 @@ def publica_sensores(callback_id, current_time, callback_memory):
       while publicacao == 0 and tentativas_publicacao <= 20:
           try:
             mqttc.connect()
-            mqttc.publish(BTN_TOPIC, publicacao_temp[indice_pub].encode())
-            mqttc.publish(BTN_TOPIC, publicacao_umid[indice_pub].encode())
-            mqttc.disconnect()
-            indice_pub=indice_pub-1
-            print("indice_pub publicacao：%s" %str(indice_pub))
             publicacao=1   
           except:
             time.sleep(5)
             tentativas_publicacao=tentativas_publicacao+1
             print("Tentativas：%s" %str(tentativas_publicacao))
             publicacao=0
-
+      mqttc.publish(BTN_TOPIC, publicacao_temp[indice_pub].encode())
+      mqttc.publish(BTN_TOPIC, publicacao_umid[indice_pub].encode())
+      mqttc.disconnect()
+      indice_pub=indice_pub-1
+      print("indice_pub publicacao：%s" %str(indice_pub))
 mcron.init_timer()
 mcron.insert(mcron.PERIOD_HOUR, range(0, mcron.PERIOD_HOUR, mcron.PERIOD_HOUR // 60), 'day_x4', le_sensores)
 mcron.insert(mcron.PERIOD_HOUR, range(0, mcron.PERIOD_HOUR, mcron.PERIOD_HOUR // 60), 'day_x5', publica_sensores)
