@@ -30,18 +30,18 @@ def sincronizar_ntp (callbalck_id, current_time, callback_memory):
     
 ntptime.host = "1.europe.pool.ntp.org"
         
-tentativas=0
-publicou=0
-while publicou == 0 and tentativas <= 20:
+tentativas_ajuste_relogio=0
+ajuste_relogio=0
+while ajuste_relogio == 0 and tentativas_ajuste_relogio <= 20:
     try:
         ntptime.settime()
-        publicou=1
+        ajuste_relogio=1
         print("Relogio ajustado")
     except:
         time.sleep(5)
-        tentativas=tentativas+1
-        print("Tentativas ajuste relogio：%s" %str(tentativas))
-        publicou=0
+        tentativas_ajuste_relogio=tentativas_ajuste_relogio+1
+        print("Tentativas ajuste relogio：%s" %str(tentativas_ajuste_relogio))
+        ajuste_relogio=0
 
 # mqtt client setup
 CLIENT_NAME = 'scfu'
@@ -52,11 +52,14 @@ BTN_TOPIC = CLIENT_NAME.encode() + b'/dados'
 print(BTN_TOPIC)
 ### -----------------------
 
-def publica(callback_id, current_time, callback_memory):
+indice_pub=0
+
+def le_sensores (callback_id, current_time, callback_memory):
     global BTN_TOPIC
     global mqttc
     global CLIENT_NAME
     global BROKER_ADDR
+    global indice_pub
     
     sensor = dht.DHT22(Pin(23))
     try:
@@ -73,16 +76,13 @@ def publica(callback_id, current_time, callback_memory):
     mes=time.localtime()[1]
     dia=time.localtime()[2]
     hora=time.localtime()[3]
-    #hfl=[21,22,23,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
-    #horalocal=hfl[hora]
     minuto=time.localtime()[4]
     segundo=time.localtime()[5]
     datahora=str(ano)+"-"+str(mes)+"-"+str(dia)+" "+str(hora)+ ":"+str(minuto)+ ":"+str(segundo)
     print(datahora)
     datahorautc = time.localtime()
     print(datahorautc)
-    
-  
+   
     dict = {}                                                                                                                                                                                                   
     dict["Valor"] = temp
     dict["DataHora"] = datahora
@@ -90,8 +90,11 @@ def publica(callback_id, current_time, callback_memory):
     dict["Origem"] = "Graciela"
     print(dict)
     
-    publicacao_temp = ujson.dumps(dict)
-    print(publicacao_temp)
+    indice_pub=indice_pub+1
+    print(indice_pub)
+    
+    publicacao_temp[indice_pub] = ujson.dumps(dict)
+    print(publicacao_temp[indice_pub])
 
     dict = {}                                                                                                                                                                                                   
     dict["Valor"] = Umid
@@ -100,26 +103,37 @@ def publica(callback_id, current_time, callback_memory):
     dict["Origem"] = "Graciela"
     print(dict)
     
-    publicacao_umid = ujson.dumps(dict)
-    print(publicacao_umid)
+    publicacao_umid[indice_pub] = ujson.dumps(dict)
+    print(publicacao_umid[indice_pub])
 
-    tentativas=0
-    publicou=0
-    while publicou == 0 and tentativas <= 20:
-        try:
-          mqttc.connect()
-          publicou=1   
-        except:
-          time.sleep(5)
-          tentativas=tentativas+1
-          print("Tentativas：%s" %str(tentativas))
-          publicou=0
-    mqttc.publish(BTN_TOPIC, publicacao_temp.encode())
-    mqttc.publish(BTN_TOPIC, publicacao_umid.encode())
-    mqttc.disconnect()
+    
+def publica_sensores(callback_id, current_time, callback_memory):
+    global BTN_TOPIC
+    global mqttc
+    global CLIENT_NAME
+    global BROKER_ADDR
+    global indice_pub    
 
+    time.sleep(5)
+    tentativas_publicacao=0
+    publicacao=0
+    while indice_pub > 0:
+      while publicacao == 0 and tentativas_publicacao <= 20:
+          try:
+            mqttc.connect()
+            mqttc.publish(BTN_TOPIC, publicacao_temp[indice_pub].encode())
+            mqttc.publish(BTN_TOPIC, publicacao_umid[indice_pub].encode())
+            mqttc.disconnect()
+            indice_pub=indice_pub-1
+            print(indice_pub)
+            publicacao=1   
+          except:
+            time.sleep(5)
+            tentativas_publicacao=tentativas_publicacao+1
+            print("Tentativas：%s" %str(tentativas_publicacao))
+            publicacao=0
 
 mcron.init_timer()
-#mcron.insert(mcron.PERIOD_MINUTE, 5), 'minute_5s', counter)
-mcron.insert(mcron.PERIOD_HOUR, range(0, mcron.PERIOD_HOUR, mcron.PERIOD_HOUR // 6), 'day_x4', publica)
+mcron.insert(mcron.PERIOD_HOUR, range(0, mcron.PERIOD_HOUR, mcron.PERIOD_HOUR // 6), 'day_x4', le_sensores)
+mcron.insert(mcron.PERIOD_HOUR, range(0, mcron.PERIOD_HOUR, mcron.PERIOD_HOUR // 60), 'day_x4', publica_sensores)
 mcron.insert(mcron.PERIOD_DAY, range(0, mcron.PERIOD_DAY, mcron.PERIOD_DAY // 2), 'day_x2', sincronizar_ntp)
