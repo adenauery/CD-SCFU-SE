@@ -48,6 +48,10 @@ mqttc = MQTTClient(CLIENT_NAME, BROKER_ADDR, keepalive=60)
 
 BTN_TOPIC = CLIENT_NAME.encode() + b'/dados'
 print(BTN_TOPIC)
+
+publicacao_temp=[]
+publicacao_umid=[]
+
 ### -----------------------
 
 indice_pub=0
@@ -94,7 +98,8 @@ def le_sensores (callback_id, current_time, callback_memory):
     print("indice_pub leitura：%s" %str(indice_pub))
     
     publicacao_temp[indice_pub] = ujson.dumps(dict)
-    print(publicacao_temp[indice_pub])
+    #publicacao_temp.append(ujson.dumps(dict))
+    print(publicacao_temp])
 
     dict = {}                                                                                                                                                                                                   
     dict["Valor"] = Umid
@@ -104,7 +109,8 @@ def le_sensores (callback_id, current_time, callback_memory):
     print(dict)
     
     publicacao_umid[indice_pub] = ujson.dumps(dict)
-    print(publicacao_umid[indice_pub])
+    #publicacao_temp.append(ujson.dumps(dict))
+    print(publicacao_umid)
 
     
 def publica_sensores (callback_id, current_time, callback_memory):
