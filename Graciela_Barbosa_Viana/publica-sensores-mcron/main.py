@@ -14,10 +14,7 @@ def connect_scfu():
     sta_if = network.WLAN(network.STA_IF)
     if not sta_if.isconnected():
         sta_if.active(True)
-       # sta_if.connect('VIVOFIBRA-1340', '3FA2466B77')
-        #sta_if.connect('EXEHDA_2G', '!luz@azul#')
-        #sta_if.connect('TCYs', 'acy12345')
-        sta_if.connect('EXEHDA-0', 'acy12345')
+        sta_if.connect('VIVOFIBRA-1340', '?????????')
         while not sta_if.isconnected():
             pass # wait till connection
     print('network config:', sta_if.ifconfig())
@@ -56,7 +53,6 @@ publicacao_temp=[]
 publicacao_umid=[]
 
 # Fim da Configuracao do Cliente MQTT 
-
 
 indice_pub=0
 
@@ -114,16 +110,14 @@ def le_sensores (callback_id, current_time, callback_memory):
       mqttc.connect()
       mqttc.publish(BTN_TOPIC, pub_temp.encode())
       mqttc.disconnect()
- 
-    except:
+     except:
       publicacao_temp.append(pub_temp)
    
     try:
       mqttc.connect()
       mqttc.publish(BTN_TOPIC, pub_umid.encode())
       mqttc.disconnect()
- 
-    except:
+     except:
       publicacao_umid.append(pub_umid)
  
  
