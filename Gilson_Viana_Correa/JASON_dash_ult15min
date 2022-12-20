@@ -1,0 +1,123 @@
+--------------------------------------------------------------------------------
+       5 - VISUALIZAÇÃO DA VARIAÇÃO DE TEMPERATURA DOS ÚLTIMOS 15 MINUTOS
+--------------------------------------------------------------------------------
+#JASON DO PAINEL DASHBOARD DE VISUALIZAÇÃO DOS ULTIMOS 15 Min.
+
+{
+  "id": 12,
+  "gridPos": {
+    "h": 9,
+    "w": 18,
+    "x": 0,
+    "y": 44
+  },
+  "type": "bargauge",
+  "title": "Variação de Temperatura nos Últimos 15min",
+  "datasource": {
+    "type": "mysql",
+    "uid": "yuUaIiSVz"
+  },
+  "pluginVersion": "9.2.6",
+  "description": "Medição Outdoor de Temperatura em Tucuruí - Pará",
+  "fieldConfig": {
+    "defaults": {
+      "mappings": [],
+      "thresholds": {
+        "mode": "absolute",
+        "steps": [
+          {
+            "color": "green",
+            "value": null
+          },
+          {
+            "color": "red",
+            "value": 80
+          }
+        ]
+      },
+      "color": {
+        "fixedColor": "#C0D8FF",
+        "mode": "continuous-BlYlRd",
+        "seriesBy": "min"
+      },
+      "displayName": "T",
+      "max": 35,
+      "min": 23,
+      "noValue": "Erro na Aquisição dos Dados!",
+      "unit": "celsius"
+    },
+    "overrides": []
+  },
+  "options": {
+    "reduceOptions": {
+      "values": true,
+      "calcs": [
+        "lastNotNull"
+      ],
+      "fields": "",
+      "limit": 15
+    },
+    "orientation": "auto",
+    "displayMode": "lcd",
+    "showUnfilled": true,
+    "minVizWidth": 0,
+    "minVizHeight": 10,
+    "text": {
+      "titleSize": 1,
+      "valueSize": 10
+    }
+  },
+  "targets": [
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "yuUaIiSVz"
+      },
+      "editorMode": "code",
+      "format": "time_series",
+      "group": [],
+      "metricColumn": "none",
+      "rawQuery": true,
+      "rawSql": "SELECT\n  datahorautc AS \"time\",\n  valor\nFROM publicacoes\nWHERE\n  $__timeFilter(datahora) AND (descricao = 'Temperatura' AND origem = 'Gilson')\nORDER BY datahorautc",
+      "refId": "A",
+      "select": [
+        [
+          {
+            "params": [
+              "valor"
+            ],
+            "type": "column"
+          }
+        ]
+      ],
+      "sql": {
+        "columns": [
+          {
+            "parameters": [],
+            "type": "function"
+          }
+        ],
+        "groupBy": [
+          {
+            "property": {
+              "type": "string"
+            },
+            "type": "groupBy"
+          }
+        ],
+        "limit": 50
+      },
+      "table": "publicacoes",
+      "timeColumn": "datahora",
+      "timeColumnType": "timestamp",
+      "where": [
+        {
+          "name": "$__timeFilter",
+          "params": [],
+          "type": "macro"
+        }
+      ]
+    }
+  ],
+  "transparent": true
+}
