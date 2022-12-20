@@ -1,0 +1,144 @@
+--------------------------------------------------------------------------------
+                      4 - HISTOGRAMA DA UMIDADE DAS ÚLTIMAS 72H
+--------------------------------------------------------------------------------
+#JASON DO PAINEL DASHBOARD DE CALCULO DO HISTOGRAMA DA UMIDADE
+
+{
+  "id": 11,
+  "gridPos": {
+    "h": 12,
+    "w": 22,
+    "x": 0,
+    "y": 32
+  },
+  "type": "histogram",
+  "title": "Histograma de Umidade nas Últimas 72h",
+  "datasource": {
+    "type": "mysql",
+    "uid": "yuUaIiSVz"
+  },
+  "description": "Frequências de Variações de Umidade em Tucuruí - Pará. Ambiente Outdoor",
+  "fieldConfig": {
+    "defaults": {
+      "custom": {
+        "lineWidth": 1,
+        "fillOpacity": 32,
+        "gradientMode": "opacity",
+        "hideFrom": {
+          "tooltip": false,
+          "viz": false,
+          "legend": false
+        }
+      },
+      "color": {
+        "mode": "continuous-RdYlGr"
+      },
+      "mappings": [],
+      "thresholds": {
+        "mode": "absolute",
+        "steps": [
+          {
+            "color": "green",
+            "value": null
+          },
+          {
+            "color": "red",
+            "value": 80
+          }
+        ]
+      },
+      "decimals": 0,
+      "displayName": "Frequência de Variação da Umidade",
+      "unit": "humidity"
+    },
+    "overrides": [
+      {
+        "__systemRef": "hideSeriesFrom",
+        "matcher": {
+          "id": "byNames",
+          "options": {
+            "mode": "exclude",
+            "names": [
+              "Frequência de Variação da Umidade"
+            ],
+            "prefix": "All except:",
+            "readOnly": true
+          }
+        },
+        "properties": [
+          {
+            "id": "custom.hideFrom",
+            "value": {
+              "legend": false,
+              "tooltip": false,
+              "viz": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "options": {
+    "bucketOffset": 0,
+    "legend": {
+      "showLegend": true,
+      "displayMode": "table",
+      "placement": "right",
+      "calcs": []
+    },
+    "combine": false
+  },
+  "targets": [
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "yuUaIiSVz"
+      },
+      "editorMode": "code",
+      "format": "time_series",
+      "group": [],
+      "metricColumn": "none",
+      "rawQuery": true,
+      "rawSql": "SELECT\n  datahorautc AS \"time\",\n  valor\nFROM publicacoes\nWHERE\n  $__timeFilter(datahora) AND (descricao = 'Umidade' AND origem = 'Gilson')\nORDER BY datahorautc",
+      "refId": "A",
+      "select": [
+        [
+          {
+            "params": [
+              "valor"
+            ],
+            "type": "column"
+          }
+        ]
+      ],
+      "sql": {
+        "columns": [
+          {
+            "parameters": [],
+            "type": "function"
+          }
+        ],
+        "groupBy": [
+          {
+            "property": {
+              "type": "string"
+            },
+            "type": "groupBy"
+          }
+        ],
+        "limit": 50
+      },
+      "table": "publicacoes",
+      "timeColumn": "datahora",
+      "timeColumnType": "timestamp",
+      "where": [
+        {
+          "name": "$__timeFilter",
+          "params": [],
+          "type": "macro"
+        }
+      ]
+    }
+  ],
+  "transparent": true
+}
