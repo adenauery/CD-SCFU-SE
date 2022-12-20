@@ -8,8 +8,8 @@ Outras informações sobre a minha atuação como mestrando estão disponíveis 
 Neste documento constam as diretrizes gerais do projeto de Sistemas Ciber-Físicos e Ubíquos no qual compreende:
 
 a) Aquisitar dados de temperatura e umidade d residencial com embarcado ESP32 e sensores do tipo DHT;
-b) Publicar os valores através de um broker pelo uso de protocolo IoT MQTT;
-c) Visualizar os dados aquisitados em dashboard de plataforma em nuvem;
-d) Gravar tais informações me banco de dados.
+##b) Publicar os valores através de um broker pelo uso de protocolo IoT MQTT;
+##c) Visualizar os dados aquisitados em dashboard de plataforma em nuvem;
+##d) Gravar tais informações me banco de dados.
 
 
