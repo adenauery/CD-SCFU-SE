@@ -2,7 +2,7 @@
 
 Este repositório registra os códigos desenvolvidos pela turma de mestrandos que está cursando as disciplinas de **Ciência de Dados na Internet das Coisas, Sistemas Embarcados e Sistemas Ciber Físicos e Ubíquos** do [MEEC](https://pos.ucpel.edu.br/ppgeec/) da UCPel.
 
-As soluções são desenvolvidas em **Micropython** sobre a plataforma de hardware **ESP332**
+As soluções são desenvolvidas em **Micropython** sobre a plataforma de hardware **ESP32**
 
 ### Softwares Desenvolvidos Pela Turma: ###
 
