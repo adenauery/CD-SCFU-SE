@@ -1,0 +1,205 @@
+--------------------------------------------------------------------------------
+           6 - COMPARATIVO DO % DE UMIDADE ENTRE TUCURUÍ E RIO GRANDE
+--------------------------------------------------------------------------------
+#JASON DO PAINEL DASHBOARD DE VISUALIZAÇÃO DO COMPARATIVO DE UMIDADE PA x RS
+
+{
+  "id": 14,
+  "gridPos": {
+    "h": 12,
+    "w": 24,
+    "x": 0,
+    "y": 53
+  },
+  "type": "timeseries",
+  "title": "Comparativo % Umidade: Tucuruí (PA) x Rio Grande (RS)",
+  "datasource": {
+    "type": "mysql",
+    "uid": "yuUaIiSVz"
+  },
+  "description": "",
+  "fieldConfig": {
+    "defaults": {
+      "custom": {
+        "drawStyle": "line",
+        "lineInterpolation": "smooth",
+        "barAlignment": 0,
+        "lineWidth": 2,
+        "fillOpacity": 25,
+        "gradientMode": "opacity",
+        "spanNulls": false,
+        "showPoints": "auto",
+        "pointSize": 5,
+        "stacking": {
+          "mode": "none",
+          "group": "A"
+        },
+        "axisPlacement": "auto",
+        "axisLabel": "% de Umidade",
+        "axisColorMode": "series",
+        "scaleDistribution": {
+          "type": "linear"
+        },
+        "axisCenteredZero": false,
+        "hideFrom": {
+          "tooltip": false,
+          "viz": false,
+          "legend": false
+        },
+        "thresholdsStyle": {
+          "mode": "off"
+        },
+        "lineStyle": {
+          "fill": "solid"
+        }
+      },
+      "color": {
+        "mode": "palette-classic"
+      },
+      "mappings": [],
+      "thresholds": {
+        "mode": "absolute",
+        "steps": [
+          {
+            "color": "green",
+            "value": null
+          },
+          {
+            "color": "red",
+            "value": 80
+          }
+        ]
+      },
+      "decimals": 1,
+      "displayName": "Estatísticas:",
+      "unit": "humidity"
+    },
+    "overrides": []
+  },
+  "options": {
+    "tooltip": {
+      "mode": "single",
+      "sort": "none"
+    },
+    "legend": {
+      "showLegend": true,
+      "displayMode": "table",
+      "placement": "right",
+      "calcs": [
+        "min",
+        "max",
+        "mean",
+        "range"
+      ],
+      "width": 0
+    },
+    "timezone": [
+      "America/Sao_Paulo"
+    ]
+  },
+  "targets": [
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "yuUaIiSVz"
+      },
+      "editorMode": "code",
+      "format": "time_series",
+      "group": [],
+      "hide": false,
+      "metricColumn": "none",
+      "rawQuery": true,
+      "rawSql": "SELECT\n  datahorautc AS \"time\",\n  valor\nFROM publicacoes\nWHERE\n  $__timeFilter(datahora) AND origem=\"Gilson\"\nORDER BY datahorautc",
+      "refId": "Tucuruí",
+      "select": [
+        [
+          {
+            "params": [
+              "valor"
+            ],
+            "type": "column"
+          }
+        ]
+      ],
+      "sql": {
+        "columns": [
+          {
+            "parameters": [],
+            "type": "function"
+          }
+        ],
+        "groupBy": [
+          {
+            "property": {
+              "type": "string"
+            },
+            "type": "groupBy"
+          }
+        ],
+        "limit": 50
+      },
+      "table": "publicacoes",
+      "timeColumn": "datahora",
+      "timeColumnType": "timestamp",
+      "where": [
+        {
+          "name": "$__timeFilter",
+          "params": [],
+          "type": "macro"
+        }
+      ]
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "yuUaIiSVz"
+      },
+      "editorMode": "code",
+      "format": "time_series",
+      "group": [],
+      "hide": false,
+      "metricColumn": "none",
+      "rawQuery": true,
+      "rawSql": "SELECT\n  datahorautc AS \"time\",\n  valor\nFROM publicacoes\nWHERE\n  $__timeFilter(datahora) AND origem=\"Tiago\"\nORDER BY datahorautc",
+      "refId": "Rio Grande",
+      "select": [
+        [
+          {
+            "params": [
+              "valor"
+            ],
+            "type": "column"
+          }
+        ]
+      ],
+      "sql": {
+        "columns": [
+          {
+            "parameters": [],
+            "type": "function"
+          }
+        ],
+        "groupBy": [
+          {
+            "property": {
+              "type": "string"
+            },
+            "type": "groupBy"
+          }
+        ],
+        "limit": 50
+      },
+      "table": "publicacoes",
+      "timeColumn": "datahora",
+      "timeColumnType": "timestamp",
+      "where": [
+        {
+          "name": "$__timeFilter",
+          "params": [],
+          "type": "macro"
+        }
+      ]
+    }
+  ],
+  "transparent": true
+}
