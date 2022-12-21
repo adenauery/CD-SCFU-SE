@@ -133,6 +133,7 @@ def publica_sensores (callback_id, current_time, callback_memory):
     print(' ')
     print('Iniciou Publica Sensores')
     
+    tentativas_publicacao_total=0
     while tentativas_publicacao_total <= 0 and ( len(publicacao_temp)  >  0 or   len(publicacao_umid)  >  0): 
         if len(publicacao_temp)  >  0:
             tentativas_publicacao=0
