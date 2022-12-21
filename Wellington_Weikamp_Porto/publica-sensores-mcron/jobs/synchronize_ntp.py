@@ -1,8 +1,15 @@
 import ntptime
-
-HOST = "1.europe.pool.ntp.org"
+from utils.ntp import HOST
+import time
 
 def synchronize_ntp(callback_id, current_time, callback_memory):
+    """
+    Função callback para sincronizar o tempo
+    """
     ntptime.host = HOST
-    print('tempo sincronizado')
-    ntptime.settime()
+    while True:
+        try:
+            ntptime.settime()
+            break
+        except:
+            time.sleep(5)

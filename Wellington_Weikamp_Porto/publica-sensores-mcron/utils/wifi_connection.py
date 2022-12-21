@@ -11,4 +11,3 @@ def connect():
         sta_if.connect(config['ssid'], config['ssid_password'])
         while not sta_if.isconnected():
             pass # wait till connection
-    print('network config:', sta_if.ifconfig())
