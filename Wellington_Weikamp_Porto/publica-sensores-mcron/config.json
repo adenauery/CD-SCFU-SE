@@ -1,6 +1,6 @@
 {
-  "ssid": "OsirMax_Wellington",
-  "ssid_password": "01091990",
-  "client_name": "pi-iv-a",
-  "broker_addr": "broker.hivemq.com"
+  "ssid": "SSID",
+  "ssid_password": "PASSWORD",
+  "client_name": "CLIENT NAME",
+  "broker_addr": "BROKER"
 }
