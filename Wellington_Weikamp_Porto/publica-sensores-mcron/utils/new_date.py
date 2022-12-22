@@ -1,15 +1,12 @@
-import time
-
-TIME = time.localtime()
 
 class NewDate:
-    def __init__(self):
-        self.__year = TIME[0]
-        self.__month = TIME[1]
-        self.__day = TIME[2]
-        self.__local_hour = TIME[3]
-        self.__minute = TIME[4]
-        self.__second = TIME[5]
+    def __init__(self, time):
+        self.__year = time[0]
+        self.__month = time[1]
+        self.__day = time[2]
+        self.__local_hour = time[3]
+        self.__minute = time[4]
+        self.__second = time[5]
 
     @property
     def year(self):
