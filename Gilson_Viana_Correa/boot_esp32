@@ -1,0 +1,6 @@
+#Gilson Viana Correa - MEEC/UCPel 2022.
+#/boot.py - Arquivo de boot sem auxilio de PC
+
+import utime
+utime.sleep_ms(20000)
+exec(open('./main1.py').read(),globals())
