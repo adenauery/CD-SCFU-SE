@@ -54,7 +54,7 @@ publicacao_umid=[]
 
 # Fim da Configuracao do Cliente MQTT 
 
-indice_pub=0
+indice_pub=0  #vetor que guarda as publicações. Quando igual a zero, ainda não publicou
 
 def le_sensores (callback_id, current_time, callback_memory):
     global BTN_TOPIC
@@ -88,14 +88,14 @@ def le_sensores (callback_id, current_time, callback_memory):
     datahorautc=str(ano)+"-"+str(mes)+"-"+str(dia)+" "+str(hora)+ ":"+str(minuto)+ ":"+str(segundo)
     print(datahorautc)
   
-    dict = {}                                                                                                                                                                                                   
+    dict = {}  #criar ujson                                                                                                                                                                                                 
     dict["Valor"] = temp
     dict["DataHora"] = datahorautc
     dict["Descricao"] = "Temperatura"
     dict["Origem"] = "Graciela"
     print(dict)
     
-    pub_temp = ujson.dumps(dict)
+    pub_temp = ujson.dumps(dict)  #Codificador e decodificador json 
     
     dict = {}                                                                                                                                                                                                   
     dict["Valor"] = umid
