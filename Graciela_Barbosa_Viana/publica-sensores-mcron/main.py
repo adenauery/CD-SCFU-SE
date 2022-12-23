@@ -11,7 +11,7 @@ from umqtt.simple import MQTTClient
 
 def connect_scfu():
     import network
-    sta_if = network.WLAN(network.STA_IF)
+    sta_if = network.WLAN(network.STA_IF)  #conecta a um roteador
     if not sta_if.isconnected():
         sta_if.active(True)
         sta_if.connect('VIVOFIBRA-1340', '?????????')
@@ -22,7 +22,7 @@ def connect_scfu():
 connect_scfu()
 
 def sincronizar_ntp (callbalck_id, current_time, callback_memory):
-    ntptime.host = "1.europe.pool.ntp.org"
+    ntptime.host = "1.europe.pool.ntp.org"  #pool.ntp.org é um grande cluster virtual.Fornece serviço NTP
     ntptime.settime()
     
 ntptime.host = "1.europe.pool.ntp.org"
