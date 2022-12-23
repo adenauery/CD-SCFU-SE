@@ -54,7 +54,7 @@ publicacao_umid=[]
 
 # Fim da Configuracao do Cliente MQTT 
 
-indice_pub=0  #vetor que guarda as publicações. Quando igual a zero, ainda não publicou
+indice_pub=0  
 
 def le_sensores (callback_id, current_time, callback_memory):
     global BTN_TOPIC
