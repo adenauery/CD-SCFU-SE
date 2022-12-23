@@ -31,7 +31,7 @@ tentativas_ajuste_relogio=0
 ajuste_relogio=0
 while ajuste_relogio == 0 and tentativas_ajuste_relogio <= 20:
     try:
-        ntptime.settime()
+        ntptime.settime()  #ajusta o relogio. Precisa do servidor(rede)
         ajuste_relogio=1
         print("Relogio ajustado")
     except:
