@@ -73,8 +73,8 @@ def le_sensores (callback_id, current_time, callback_memory):
        sensor.measure()
        temp = sensor.temperature()
        #print(temp,"C de Temperatura")
-       Umid = sensor.humidity()
-       #print(Umid,"% de Umidade")
+       umid = sensor.humidity()
+       #print(umid,"% de Umidade")
         
     except OSError as err:
        print("Falha na leitura dos dados")
@@ -98,7 +98,7 @@ def le_sensores (callback_id, current_time, callback_memory):
     pub_temp = ujson.dumps(dict)
     
     dict = {}                                                                                                                                                                                                   
-    dict["Valor"] = Umid
+    dict["Valor"] = umid
     dict["DataHora"] = datahorautc
     dict["Descricao"] = "Umidade"
     dict["Origem"] = "Graciela"
