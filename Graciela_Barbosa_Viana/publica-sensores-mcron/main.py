@@ -106,11 +106,11 @@ def le_sensores (callback_id, current_time, callback_memory):
     
     pub_umid = ujson.dumps(dict)
     
-    try:
+    try:  #tenta executar o codigo
       mqttc.connect()
       mqttc.publish(BTN_TOPIC, pub_temp.encode())
       mqttc.disconnect()
-     except:
+     except: #se o codigo nao executar,retorna o que temos no except
       publicacao_temp.append(pub_temp)
    
     try:
