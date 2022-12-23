@@ -171,6 +171,6 @@ def publica_sensores (callback_id, current_time, callback_memory):
         print("Tentativas publicacao total：%s" %str(tentativas_publicacao_total))
  
 mcron.init_timer()
-mcron.insert(mcron.PERIOD_HOUR, range(0, mcron.PERIOD_HOUR, mcron.PERIOD_HOUR // 12), 'day_x4', le_sensores)
+mcron.insert(mcron.PERIOD_HOUR, range(0, mcron.PERIOD_HOUR, mcron.PERIOD_HOUR // 6), 'day_x4', le_sensores)
 mcron.insert(mcron.PERIOD_HOUR, range(0, mcron.PERIOD_HOUR, mcron.PERIOD_HOUR // 60), 'day_x6', publica_sensores)
 mcron.insert(mcron.PERIOD_DAY, range(0, mcron.PERIOD_DAY, mcron.PERIOD_DAY // 2), 'day_x2', sincronizar_ntp)
