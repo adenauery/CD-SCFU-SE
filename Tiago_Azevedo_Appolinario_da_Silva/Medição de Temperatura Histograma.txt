@@ -1,0 +1,111 @@
+{
+  "id": 7,
+  "gridPos": {
+    "h": 7,
+    "w": 17,
+    "x": 0,
+    "y": 7
+  },
+  "type": "histogram",
+  "title": "Medição de Temperatura Histograma - Tiago Azevedo Appolinario da Silva",
+  "datasource": {
+    "uid": "yuUaIiSVz",
+    "type": "mysql"
+  },
+  "fieldConfig": {
+    "defaults": {
+      "custom": {
+        "lineWidth": 1,
+        "fillOpacity": 93,
+        "gradientMode": "opacity",
+        "hideFrom": {
+          "tooltip": false,
+          "viz": false,
+          "legend": false
+        }
+      },
+      "color": {
+        "mode": "thresholds"
+      },
+      "mappings": [],
+      "thresholds": {
+        "mode": "percentage",
+        "steps": [
+          {
+            "color": "#d977cec7",
+            "value": null
+          },
+          {
+            "color": "red",
+            "value": 80
+          }
+        ]
+      },
+      "unit": "celsius"
+    },
+    "overrides": []
+  },
+  "options": {
+    "bucketOffset": 0,
+    "legend": {
+      "showLegend": true,
+      "displayMode": "list",
+      "placement": "bottom",
+      "calcs": []
+    }
+  },
+  "targets": [
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "yuUaIiSVz"
+      },
+      "editorMode": "code",
+      "format": "time_series",
+      "group": [],
+      "metricColumn": "none",
+      "rawQuery": true,
+      "rawSql": "SELECT\n  datahorautc AS \"time\",\n  valor\nFROM publicacoes\nWHERE\n  $__timeFilter(datahora) AND (descricao = 'Temperatura' AND origem = 'Tiago')\nORDER BY datahorautc",
+      "refId": "A",
+      "select": [
+        [
+          {
+            "params": [
+              "valor"
+            ],
+            "type": "column"
+          }
+        ]
+      ],
+      "sql": {
+        "columns": [
+          {
+            "parameters": [],
+            "type": "function"
+          }
+        ],
+        "groupBy": [
+          {
+            "property": {
+              "type": "string"
+            },
+            "type": "groupBy"
+          }
+        ],
+        "limit": 50
+      },
+      "table": "publicacoes",
+      "timeColumn": "datahora",
+      "timeColumnType": "timestamp",
+      "where": [
+        {
+          "name": "$__timeFilter",
+          "params": [],
+          "type": "macro"
+        }
+      ]
+    }
+  ],
+  "transparent": true,
+  "description": ""
+}

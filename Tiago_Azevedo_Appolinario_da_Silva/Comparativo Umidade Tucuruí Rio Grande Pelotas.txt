@@ -1,0 +1,231 @@
+{
+  "id": 8,
+  "gridPos": {
+    "h": 7,
+    "w": 17,
+    "x": 0,
+    "y": 28
+  },
+  "type": "timeseries",
+  "title": "Comparativo % Umidade: Tucuruí (PA) x Rio Grande (RS) x Pelotas - Graciela (RS)",
+  "datasource": {
+    "uid": "yuUaIiSVz",
+    "type": "mysql"
+  },
+  "fieldConfig": {
+    "defaults": {
+      "custom": {
+        "drawStyle": "line",
+        "lineInterpolation": "smooth",
+        "barAlignment": 0,
+        "lineWidth": 2,
+        "fillOpacity": 43,
+        "gradientMode": "opacity",
+        "spanNulls": false,
+        "showPoints": "auto",
+        "pointSize": 5,
+        "stacking": {
+          "mode": "none",
+          "group": "A"
+        },
+        "axisPlacement": "auto",
+        "axisLabel": "% de Umidade",
+        "axisColorMode": "series",
+        "scaleDistribution": {
+          "type": "linear"
+        },
+        "axisCenteredZero": false,
+        "hideFrom": {
+          "tooltip": false,
+          "viz": false,
+          "legend": false
+        },
+        "thresholdsStyle": {
+          "mode": "off"
+        },
+        "lineStyle": {
+          "fill": "solid"
+        }
+      },
+      "color": {
+        "mode": "palette-classic"
+      },
+      "mappings": [],
+      "thresholds": {
+        "mode": "absolute",
+        "steps": [
+          {
+            "color": "green",
+            "value": null
+          },
+          {
+            "color": "red",
+            "value": 80
+          }
+        ]
+      },
+      "unit": "humidity",
+      "decimals": 1,
+      "displayName": "Estatísticas:"
+    },
+    "overrides": [
+      {
+        "__systemRef": "hideSeriesFrom",
+        "matcher": {
+          "id": "byNames",
+          "options": {
+            "mode": "exclude",
+            "names": [
+              "Estatísticas:"
+            ],
+            "prefix": "All except:",
+            "readOnly": true
+          }
+        },
+        "properties": [
+          {
+            "id": "custom.hideFrom",
+            "value": {
+              "viz": true,
+              "legend": false,
+              "tooltip": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "options": {
+    "tooltip": {
+      "mode": "single",
+      "sort": "none"
+    },
+    "legend": {
+      "showLegend": true,
+      "displayMode": "table",
+      "placement": "right",
+      "calcs": [
+        "min",
+        "max",
+        "mean",
+        "range"
+      ],
+      "width": 0
+    },
+    "timezone": [
+      "America/Sao_Paulo"
+    ]
+  },
+  "targets": [
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "yuUaIiSVz"
+      },
+      "editorMode": "code",
+      "format": "time_series",
+      "group": [],
+      "metricColumn": "none",
+      "rawQuery": true,
+      "rawSql": "SELECT\n  datahorautc AS \"time\",\n  valor\nFROM publicacoes\nWHERE\n  $__timeFilter(datahora) AND (descricao = 'Umidade' AND origem = 'Tiago')\nORDER BY datahorautc",
+      "refId": "Rio Grande - RS",
+      "select": [
+        [
+          {
+            "params": [
+              "valor"
+            ],
+            "type": "column"
+          }
+        ]
+      ],
+      "sql": {
+        "columns": [
+          {
+            "parameters": [],
+            "type": "function"
+          }
+        ],
+        "groupBy": [
+          {
+            "property": {
+              "type": "string"
+            },
+            "type": "groupBy"
+          }
+        ],
+        "limit": 50
+      },
+      "table": "publicacoes",
+      "timeColumn": "datahora",
+      "timeColumnType": "timestamp",
+      "where": [
+        {
+          "name": "$__timeFilter",
+          "params": [],
+          "type": "macro"
+        }
+      ]
+    },
+    {
+      "datasource": {
+        "uid": "yuUaIiSVz",
+        "type": "mysql"
+      },
+      "refId": "Tucuruí - PA",
+      "hide": false,
+      "format": "table",
+      "rawSql": "SELECT\r\n  datahorautc AS \"time\",\r\n  valor\r\nFROM publicacoes\r\nWHERE\r\n  $__timeFilter(datahora) AND origem=\"Gilson\"\r\nORDER BY datahorautc",
+      "editorMode": "code",
+      "sql": {
+        "columns": [
+          {
+            "type": "function",
+            "parameters": []
+          }
+        ],
+        "groupBy": [
+          {
+            "type": "groupBy",
+            "property": {
+              "type": "string"
+            }
+          }
+        ],
+        "limit": 50
+      },
+      "rawQuery": true
+    },
+    {
+      "datasource": {
+        "uid": "yuUaIiSVz",
+        "type": "mysql"
+      },
+      "refId": "Pelotas - Graciela - RS",
+      "hide": false,
+      "format": "table",
+      "rawSql": "SELECT\r\n  datahorautc AS \"time\",\r\n  valor\r\nFROM publicacoes\r\nWHERE\r\n  $__timeFilter(datahora) AND (descricao = 'Umidade' AND origem = 'Graciela')\r\nORDER BY datahorautc",
+      "editorMode": "code",
+      "sql": {
+        "columns": [
+          {
+            "type": "function",
+            "parameters": []
+          }
+        ],
+        "groupBy": [
+          {
+            "type": "groupBy",
+            "property": {
+              "type": "string"
+            }
+          }
+        ],
+        "limit": 50
+      },
+      "rawQuery": true
+    }
+  ],
+  "transparent": true,
+  "description": ""
+}

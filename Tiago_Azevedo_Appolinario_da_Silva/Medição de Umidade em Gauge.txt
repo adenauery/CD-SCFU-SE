@@ -1,0 +1,105 @@
+{
+  "id": 9,
+  "gridPos": {
+    "h": 7,
+    "w": 17,
+    "x": 0,
+    "y": 21
+  },
+  "type": "gauge",
+  "title": "Medição de Umidade em Gauge - Tiago Azevedo Appolinario da Silva",
+  "datasource": {
+    "type": "mysql",
+    "uid": "yuUaIiSVz"
+  },
+  "fieldConfig": {
+    "defaults": {
+      "mappings": [],
+      "thresholds": {
+        "mode": "absolute",
+        "steps": [
+          {
+            "color": "orange",
+            "value": null
+          },
+          {
+            "color": "dark-orange",
+            "value": 80
+          }
+        ]
+      },
+      "color": {
+        "mode": "thresholds"
+      },
+      "unit": "percent"
+    },
+    "overrides": []
+  },
+  "options": {
+    "reduceOptions": {
+      "values": false,
+      "calcs": [
+        "lastNotNull"
+      ],
+      "fields": ""
+    },
+    "orientation": "auto",
+    "showThresholdLabels": false,
+    "showThresholdMarkers": true
+  },
+  "targets": [
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "yuUaIiSVz"
+      },
+      "editorMode": "code",
+      "format": "time_series",
+      "group": [],
+      "metricColumn": "none",
+      "rawQuery": true,
+      "rawSql": "SELECT\n  datahorautc AS \"time\",\n  valor\nFROM publicacoes\nWHERE\n  $__timeFilter(datahora) AND (descricao = 'Umidade' AND origem = 'Tiago')\nORDER BY datahorautc",
+      "refId": "A",
+      "select": [
+        [
+          {
+            "params": [
+              "valor"
+            ],
+            "type": "column"
+          }
+        ]
+      ],
+      "sql": {
+        "columns": [
+          {
+            "parameters": [],
+            "type": "function"
+          }
+        ],
+        "groupBy": [
+          {
+            "property": {
+              "type": "string"
+            },
+            "type": "groupBy"
+          }
+        ],
+        "limit": 50
+      },
+      "table": "publicacoes",
+      "timeColumn": "datahora",
+      "timeColumnType": "timestamp",
+      "where": [
+        {
+          "name": "$__timeFilter",
+          "params": [],
+          "type": "macro"
+        }
+      ]
+    }
+  ],
+  "transparent": true,
+  "pluginVersion": "9.2.6",
+  "description": ""
+}
