@@ -1,4 +1,4 @@
-from machine import Pin   ###
+from machine import Pin   
 from time import sleep
 import ujson
 import time
@@ -134,7 +134,7 @@ def publica_sensores (callback_id, current_time, callback_memory):
     print('Iniciou Publica Sensores')
     
     while tentativas_publicacao_total <= 0 and ( len(publicacao_temp)  >  0 or   len(publicacao_umid)  >  0): 
-        if len(publicacao_temp)  >  0:
+        if len(publicacao_temp)  >  0:   #len() função integrada
             tentativas_publicacao=0
             publicacao=0
             while publicacao == 0 and tentativas_publicacao <= 0:
